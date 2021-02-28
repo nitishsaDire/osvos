@@ -53,30 +53,29 @@ def get_parent_training_data():
             selected_training_images.append(dict_objs_im[k][s])
             selected_training_masks.append( dict_objs_ma[k][s])
 
-        return selected_training_images, selected_training_masks
-        #
-        # objs = list(set([i.split('/')[3] for i in all_val_images]))
-        # objs[0]
-        # dict_objs_im = {}
-        # dict_objs_ma = {}
-        #
-        #
-        # for obj in objs:
-        #   dict_objs_im[obj] = []
-        #   dict_objs_ma[obj] = []
-        #
-        # [dict_objs_im[obj].append(i) for i in all_val_images for obj in objs  if obj in i]
-        # [dict_objs_ma[obj].append(i) for i in all_val_masks  for obj in objs  if obj in i]
-        #
-        # total = 0
-        # selected_val_images, selected_val_masks = [],[]
-        # for k in dict_objs_im.keys():
-        #   sample = random.sample(range(0,len(dict_objs_im[k])), (len(dict_objs_im[k])*20)//100)
-        #   sample.sort()
-        #   # print(sample, len(sample))
-        #   total += len(sample)
-        #   for s in sample:
-        #     selected_val_images.append(dict_objs_im[k][s])
-        #     selected_val_masks.append( dict_objs_ma[k][s])
-        #
-        #
+        objs = list(set([i.split('/')[3] for i in all_val_images]))
+        objs[0]
+        dict_objs_im = {}
+        dict_objs_ma = {}
+
+
+        for obj in objs:
+          dict_objs_im[obj] = []
+          dict_objs_ma[obj] = []
+
+        [dict_objs_im[obj].append(i) for i in all_val_images for obj in objs  if obj in i]
+        [dict_objs_ma[obj].append(i) for i in all_val_masks  for obj in objs  if obj in i]
+
+        total = 0
+        selected_val_images, selected_val_masks = [],[]
+        for k in dict_objs_im.keys():
+          sample = random.sample(range(0,len(dict_objs_im[k])), (len(dict_objs_im[k])*20)//100)
+          sample.sort()
+          # print(sample, len(sample))
+          total += len(sample)
+          for s in sample:
+            selected_val_images.append(dict_objs_im[k][s])
+            selected_val_masks.append( dict_objs_ma[k][s])
+
+        return selected_training_images, selected_training_masks, selected_val_images, selected_val_masks
+

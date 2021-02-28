@@ -6,12 +6,9 @@ import torch
 from torch.utils.data import DataLoader
 
 
-selected_training_images, selected_training_masks = get_parent_training_data()
-dataset = ImageDataset_DAVIS(selected_training_images, selected_training_masks)
-
-train_size = int(0.8 * len(dataset))
-val_size = len(dataset) - train_size
-train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
+selected_training_images, selected_training_masks, selected_val_images, selected_val_masks = get_parent_training_data()
+train_dataset, val_dataset = ImageDataset_DAVIS(selected_training_images, selected_training_masks), ImageDataset_DAVIS(
+    selected_val_images, selected_val_masks)
 
 datasetDict = {"train": train_dataset, "val": val_dataset}
 
