@@ -1,16 +1,7 @@
 import pandas as pd
 import random
 
-# This file contains the shell commands to download DAVIS-16 dataset, and python code to get lists of training images,masks
-# and val images,masks. This has to be run before training the parent network.
-
-
-#! wget https://cgl.ethz.ch/Downloads/Data/Davis/DAVIS-data.zip
-#! unzip DAVIS-data.zip
-#! cat DAVIS/ImageSets/480p/train.txt | awk '{print "DAVIS"$1}' > training_images
-#! cat DAVIS/ImageSets/480p/train.txt | awk '{print "DAVIS"$2}' > training_masks
-#! cat DAVIS/ImageSets/480p/val.txt | awk '{print "DAVIS"$1}' > val_images
-#! cat DAVIS/ImageSets/480p/val.txt | awk '{print "DAVIS"$2}' > val_masks
+# I have run on randomly 20% of the frames for a video.
 def get_parent_training_data():
         training_images = pd.read_csv('training_images', header=None)
         training_images.columns=['file']

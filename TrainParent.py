@@ -14,7 +14,7 @@ datasetDict = {"train": train_dataset, "val": val_dataset}
 
 dataset_sizes = {x: len(datasetDict[x]) for x in ['train', 'val']}
 
-dataloader = {x: DataLoader(datasetDict[x], batch_size=8,
+dataloader = {x: DataLoader(datasetDict[x], batch_size=4,
                             shuffle=True, num_workers=1) for x in ['train', 'val']}
 
 
@@ -27,5 +27,5 @@ cnn = RATINANET_vgg19().to(device)
 
 
 optimizer = torch.optim.Adam(cnn.parameters(), lr=0.001, weight_decay=0.0001)
-exp_lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
-model = train_model(cnn, optimizer, exp_lr_scheduler, dataloader, dataset_sizes, device, loadModel=False, num_epochs=2000)
+print(dataset_sizes)
+model = train_model(cnn, optimizer, dataloader, dataset_sizes, device, loadModel=True, num_epochs=2000)

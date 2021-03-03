@@ -24,14 +24,14 @@ class ImageDataset_DAVIS(Dataset):
         ])
         self.normalize = transforms.Compose([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
                                              ])
-        # self.c2 = [77]
+        self.c2 = [77]
         # 76, 77, 78, 79, 80, 81
 
     def get_mask(self, index):
         label_file = self.all_training_masks[index]
         label = Image.open(label_file)
         label = self.transforms(label)
-        # if index in self.c2:return label[0].unsqueeze(0)
+        if index in self.c2:return label[0].unsqueeze(0)
 
         return label
 

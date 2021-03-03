@@ -138,8 +138,8 @@ def train_model(unet, optimizer, dataloader, dataset_sizes, device, loadModel=Fa
     best_acc = 0.0
     epoch = 0
 
-    OLD_PATH = '/content/drive/MyDrive/OSVOS_davis-m3'
-    PATH = '/content/drive/MyDrive/OSVOS_davis-m3'
+    OLD_PATH = '/content/drive/MyDrive/OSVOS_davis-m3_2'
+    PATH = '/content/drive/MyDrive/OSVOS_davis-m3_2'
     if loadModel == True:
         checkpoint = torch.load(OLD_PATH)
         cnn.load_state_dict(checkpoint['cnn_state_dict'])
@@ -148,8 +148,10 @@ def train_model(unet, optimizer, dataloader, dataset_sizes, device, loadModel=Fa
         loss = checkpoint['loss']
         cnn = cnn.to(device)
         epoch_losses = checkpoint['epoch_losses']
+        epoch_jaccs = checkpoint['epoch_jaccs']
+        epoch_cas = checkpoint['epoch_cas']
         for g in optimizer.param_groups:
-            g['lr'] = 0.00005
+            g['lr'] = 0.0001
 
     for epoch in range(epoch, num_epochs):
         epoch_b = time.time()
@@ -225,25 +227,12 @@ def train_model(unet, optimizer, dataloader, dataset_sizes, device, loadModel=Fa
                             mask = outputs[-1][random_index]
                             mask_sig = torch.sigmoid(mask)
                             # o = cnn(torch.randn((2,3,480, 854)).cuda())
-                            ou = [o_[random_index] for o_ in outputs]
-                            mask_allAv = torch.cat(ou, dim=0).mean(axis=0)
-                            mask_allAv_sig = torch.sigmoid(mask_allAv)
 
-                            _, _ = plt.subplots(figsize=(6, 6))
-                            plt.imshow(mask.squeeze().cpu().detach().numpy())
-                            plt.show()
 
-                            _, _ = plt.subplots(figsize=(6, 6))
-                            plt.imshow(mask_allAv.squeeze().cpu().detach().numpy())
-                            plt.show()
+                            # _, _ = plt.subplots(figsize=(6, 6))
+                            # plt.imshow(torch.ge(mask_sig, 0.5).float().squeeze().cpu().detach().numpy())
+                            # plt.show()
 
-                            _, _ = plt.subplots(figsize=(6, 6))
-                            plt.imshow(torch.ge(mask_sig, 0.5).float().squeeze().cpu().detach().numpy())
-                            plt.show()
-
-                            _, _ = plt.subplots(figsize=(6, 6))
-                            plt.imshow(torch.ge(mask_allAv_sig, 0.5).float().squeeze().cpu().detach().numpy())
-                            plt.show()
 
                             _, _ = plt.subplots(figsize=(6, 6))
                             plt.imshow(denormalize(im.cpu().permute(1, 2, 0)))
