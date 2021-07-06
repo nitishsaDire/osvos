@@ -110,14 +110,4 @@ class RATINANET_vgg19(nn.Module):
         outs.append(self.centre_crop(self.up3(side_prep4)))
         outs.append(self.centre_crop(self.up4(side_prep5)))
 
-        side_out = []
-
-        side_out.append(self.centre_crop(self.score_dsn1(side_prep1)))
-        side_out.append(self.centre_crop(self.up1_(self.score_dsn2(side_prep2))))
-        side_out.append(self.centre_crop(self.up2_(self.score_dsn3(side_prep3))))
-        side_out.append(self.centre_crop(self.up3_(self.score_dsn4(side_prep4))))
-        side_out.append(self.centre_crop(self.up4_(self.score_dsn5(side_prep5))))
-
-        cat_out = torch.cat(outs[:], dim=1)
-        side_out.append(self.fuse(cat_out))
-        return side_out
+        return self.fuse(cat_out)
